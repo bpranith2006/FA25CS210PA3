@@ -115,15 +115,46 @@ void printPath(pair<int,int> exitcell,
 
 // ----------------------------------------------------------
 // STUDENTS IMPLEMENT DFS HERE
-// Add arguments, return type, and logic
 // ----------------------------------------------------------
-// bool dfs(……) {
-//     // Your code here
-// }
+bool dfs(int r, int c,
+         const vector<vector<int>>& maze,
+         vector<vector<bool>>& visited,
+         vector<vector<int>>& parent_r,   // not used yet
+         vector<vector<int>>& parent_c,   // not used yet
+         int exit_r, int exit_c)
+{
+    int N = maze.size();
+    int M = maze[0].size();
 
+    // Out of bounds or wall
+    if (r < 0 || r >= N || c < 0 || c >= M) return false;
+    if (maze[r][c] == 1) return false;
+
+    // Already visited
+    if (visited[r][c]) return false;
+
+    visited[r][c] = true;
+
+    // Reached exit
+    if (r == exit_r && c == exit_c) {
+        return true;
+    }
+
+    // Explore neighbors (no parent tracking yet)
+    for (int dir = 0; dir < 4; dir++) {
+        int nr = r + dr[dir];
+        int nc = c + dc[dir];
+
+        if (dfs(nr, nc, maze, visited, parent_r, parent_c, exit_r, exit_c)) {
+            return true;
+        }
+    }
+
+    return false;
+}
 
 // ----------------------------------------------------------
-// MAIN PROGRAM (students add DFS calls and logic)
+// MAIN PROGRAM (students add DFS calls and logic later)
 // ----------------------------------------------------------
 int main() {
     int N, M;
@@ -155,21 +186,7 @@ int main() {
     vector<vector<int>> parent_r(N, vector<int>(M, -1));
     vector<vector<int>> parent_c(N, vector<int>(M, -1));
 
-    // ------------------------------------------------------
-    // STUDENT WORK:
-    // Call your DFS, track visited, and fill parent_r and parent_c
-    // ------------------------------------------------------
-    // bool found = dfs(ent_r, ent_c, maze, visited, parent_r, parent_c, exit_r, exit_c);
-
-    // ------------------------------------------------------
-    // STUDENT WORK:
-    // If found, print the path
-    // ------------------------------------------------------
-    // if (found) {
-    //     printPath(exitcell, parent_r, parent_c, ent_r, ent_c);
-    // } else {
-    //     cout << "\nNo path exists.\n";
-    // }
+    // DFS will be called and used in a later commit
 
     return 0;
 }
