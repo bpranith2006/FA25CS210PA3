@@ -119,8 +119,8 @@ void printPath(pair<int,int> exitcell,
 bool dfs(int r, int c,
          const vector<vector<int>>& maze,
          vector<vector<bool>>& visited,
-         vector<vector<int>>& parent_r,   // not used yet
-         vector<vector<int>>& parent_c,   // not used yet
+         vector<vector<int>>& parent_r,
+         vector<vector<int>>& parent_c,
          int exit_r, int exit_c)
 {
     int N = maze.size();
@@ -140,10 +140,19 @@ bool dfs(int r, int c,
         return true;
     }
 
-    // Explore neighbors (no parent tracking yet)
+    // Explore neighbors with parent tracking
     for (int dir = 0; dir < 4; dir++) {
         int nr = r + dr[dir];
         int nc = c + dc[dir];
+
+        // Check bounds and walls here to avoid extra recursive calls
+        if (nr < 0 || nr >= N || nc < 0 || nc >= M) continue;
+        if (maze[nr][nc] == 1) continue;
+        if (visited[nr][nc]) continue;
+
+        // Set parent BEFORE recursing
+        parent_r[nr][nc] = r;
+        parent_c[nr][nc] = c;
 
         if (dfs(nr, nc, maze, visited, parent_r, parent_c, exit_r, exit_c)) {
             return true;
@@ -154,7 +163,7 @@ bool dfs(int r, int c,
 }
 
 // ----------------------------------------------------------
-// MAIN PROGRAM (students add DFS calls and logic later)
+// MAIN PROGRAM (DFS call and result handling in next commit)
 // ----------------------------------------------------------
 int main() {
     int N, M;
@@ -186,7 +195,7 @@ int main() {
     vector<vector<int>> parent_r(N, vector<int>(M, -1));
     vector<vector<int>> parent_c(N, vector<int>(M, -1));
 
-    // DFS will be called and used in a later commit
+    // DFS will be called and used in the next commit
 
     return 0;
 }
