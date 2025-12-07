@@ -145,7 +145,6 @@ bool dfs(int r, int c,
         int nr = r + dr[dir];
         int nc = c + dc[dir];
 
-        // Check bounds and walls here to avoid extra recursive calls
         if (nr < 0 || nr >= N || nc < 0 || nc >= M) continue;
         if (maze[nr][nc] == 1) continue;
         if (visited[nr][nc]) continue;
@@ -163,7 +162,7 @@ bool dfs(int r, int c,
 }
 
 // ----------------------------------------------------------
-// MAIN PROGRAM (DFS call and result handling in next commit)
+// MAIN PROGRAM (students add DFS calls and logic)
 // ----------------------------------------------------------
 int main() {
     int N, M;
@@ -195,7 +194,19 @@ int main() {
     vector<vector<int>> parent_r(N, vector<int>(M, -1));
     vector<vector<int>> parent_c(N, vector<int>(M, -1));
 
-    // DFS will be called and used in the next commit
+    // ------------------------------------------------------
+    // Call DFS, track visited, and fill parent_r and parent_c
+    // ------------------------------------------------------
+    bool found = dfs(ent_r, ent_c, maze, visited, parent_r, parent_c, exit_r, exit_c);
+
+    // ------------------------------------------------------
+    // If found, print the path; otherwise, print no-path message
+    // ------------------------------------------------------
+    if (found) {
+        printPath(exitcell, parent_r, parent_c, ent_r, ent_c);
+    } else {
+        cout << "\nNo path exists.\n";
+    }
 
     return 0;
 }
